@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.decomposition import TruncatedSVD
+from sklearn.metrics import precision_score
 
 def treinar_modelo(dados):
     # dividir o conjunto de dados em treino e teste
@@ -25,5 +26,9 @@ def treinar_modelo(dados):
     # avaliar o modelo
     mse = mean_squared_error(matriz_usuario_item_test.values.flatten(), predicoes.flatten())
     print(f'Erro médio: {mse}')
+
+    # calcular a precisão
+    precision = precision_score((matriz_usuario_item_test > 0).values.flatten(), (predicoes > 0).flatten(), average='micro')
+    print(f'Precisão: {precision}')
 
     return modelo
