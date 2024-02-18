@@ -1,12 +1,12 @@
-from data.gerador_dados import gerar_dados_falsos
-from utils.preprocessamento import limpar_dados
+from data.gerador_dados import dado_fake
+from utils.preprocessamento import limpeza_dados
 from model.recomendacao_model import treinar_modelo
 
 # gerar dados fictícios
-dados = gerar_dados_falsos()
+dados = dado_fake()
 
 # pré-processamento
-dados = limpar_dados(dados)
+dados = limpeza_dados(dados)
 
 # treinamento do modelo
-modelo, previsoes = treinar_modelo(dados)
+modelo = treinar_modelo(dados)
