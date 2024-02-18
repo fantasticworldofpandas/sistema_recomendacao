@@ -32,3 +32,18 @@ def treinar_modelo(dados):
     print(f'Precisão: {precision}')
 
     return modelo
+
+
+def fazer_recomendacoes(modelo, usuario_id, dados, num_recomendacoes=5):
+    n_itens = dados['item_id'].nunique()  
+
+    itens_nao_avaliados = set(range(1, n_itens + 1)) - set(dados[dados['usuario_id'] == usuario_id]['item_id'])
+    
+    # fazer previsões para itens não avaliados
+    predicoes = modelo.predict([(usuario_id, item_id, 0) for item_id in itens_nao_avaliados])
+    
+    # ordenar as previsões por avaliação prevista em ordem decrescente
+    recomendacoes = sorted(predicoes, key=lambda x: x.est, reverse=True)
+    
+    # retornar os IDs dos itens recomendados
+    return [recomendacao.iid for recomendacao in recomendacoes[:num_recomendacoes]]
